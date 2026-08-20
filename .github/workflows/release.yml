@@ -111,7 +111,7 @@ jobs:
             artifacts/*/checksums.txt
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
 
   publish:
     name: Publish to crates.io
@@ -125,7 +125,7 @@ jobs:
         with:
           toolchain: stable
 
-      - name: Publish crates
+      - name: Publish crates to crates.io
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
@@ -137,3 +137,34 @@ jobs:
           cargo publish -p morsel-daemon
           cargo publish -p morsel-cli
           cargo publish -p morsel-tui
+
+  publish-github:
+    name: Publish to GitHub Packages
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Publish crates to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        run: |
+          cargo login --registry github ${{ secrets.SECRET_TOKEN }}
+          cargo publish -p morsel-core --registry github
+          cargo publish -p morsel-clipboard --registry github
+          cargo publish -p morsel-storage --registry github
+          cargo publish -p morsel-search --registry github
+          cargo publish -p morsel-platform --registry github
+          cargo publish -p morsel-daemon --registry github
+          cargo publish -p morsel-cli --registry github
+          cargo publish -p morsel-tui --registry github

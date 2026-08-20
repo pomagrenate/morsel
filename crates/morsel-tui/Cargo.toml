@@ -1,0 +1,29 @@
+[package]
+name = "morsel-tui"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[[bin]]
+name = "morsel-tui"
+path = "src/main.rs"
+
+[dependencies]
+morsel-core = { path = "../morsel-core" }
+morsel-search = { path = "../morsel-search" }
+morsel-storage = { path = "../morsel-storage" }
+morsel-clipboard = { path = "../morsel-clipboard" }
+ratatui = { workspace = true }
+crossterm = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+unicode-width = "0.1"
+
+[dev-dependencies]

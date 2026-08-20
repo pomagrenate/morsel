@@ -1,0 +1,36 @@
+[package]
+name = "morsel-daemon"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[[bin]]
+name = "morseld"
+path = "src/main.rs"
+
+[dependencies]
+morsel-core = { path = "../morsel-core" }
+morsel-clipboard = { path = "../morsel-clipboard" }
+morsel-storage = { path = "../morsel-storage" }
+morsel-platform = { path = "../morsel-platform" }
+tokio = { workspace = true, features = ["full"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+dirs = "5.0"
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = "0.4"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+tempfile = "3.8"
+
+[[bench]]
+name = "daemon_bench"
+harness = false

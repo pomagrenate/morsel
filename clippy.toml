@@ -1,0 +1,7 @@
+# Clippy configuration for morsel
+# Cognitive complexity threshold
+cognitive-complexity-threshold = 30
+# Type complexity threshold
+type-complexity-threshold = 250
+# Allow certain lints in tests
+# (handled via per-crate configuration)

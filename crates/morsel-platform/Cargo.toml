@@ -1,0 +1,29 @@
+[package]
+name = "morsel-platform"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[dependencies]
+morsel-core = { path = "../morsel-core" }
+morsel-clipboard = { path = "../morsel-clipboard" }
+thiserror = { workspace = true }
+async-trait = "0.1"
+tokio = { workspace = true, features = ["sync"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.52", features = ["Win32_UI_Input_KeyboardAndMouse", "Win32_Foundation"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+cocoa = "0.25"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+x11 = "2.21"
+
+[dev-dependencies]

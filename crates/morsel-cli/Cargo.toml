@@ -1,0 +1,33 @@
+[package]
+name = "morsel-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[[bin]]
+name = "morsel"
+path = "src/main.rs"
+
+[dependencies]
+morsel-core = { path = "../morsel-core" }
+morsel-clipboard = { path = "../morsel-clipboard" }
+morsel-storage = { path = "../morsel-storage" }
+morsel-search = { path = "../morsel-search" }
+morsel-platform = { path = "../morsel-platform" }
+clap = { version = "4.4", features = ["derive"] }
+clap_complete = "4.4"
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+dirs = "5.0"
+toml = "0.8"
+
+[dev-dependencies]

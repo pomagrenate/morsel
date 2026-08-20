@@ -1,0 +1,32 @@
+[package]
+name = "morsel-storage"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[dependencies]
+morsel-core = { path = "../morsel-core" }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["fs", "io-util"] }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+md5 = "0.7"
+# SQLite for embedded storage
+rusqlite = { version = "0.30", features = ["bundled"] }
+r2d2 = "0.8"
+r2d2_sqlite = "0.23"
+
+[dev-dependencies]
+tempfile = "3.8"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "storage_bench"
+harness = false

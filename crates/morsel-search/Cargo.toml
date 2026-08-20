@@ -1,0 +1,24 @@
+[package]
+name = "morsel-search"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[dependencies]
+morsel-core = { path = "../morsel-core" }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+chrono = { version = "0.4", features = ["serde"] }
+# For fuzzy search
+fuzzy-matcher = "0.3"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "search_bench"
+harness = false

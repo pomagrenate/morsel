@@ -5,7 +5,7 @@
 //! This crate provides a platform-agnostic interface for clipboard operations,
 //! including monitoring clipboard changes and retrieving clipboard content.
 
-use morsel_core::{ClipboardItem, CoreError};
+use morsel_core::{ClipboardItem, ContentType, CoreError};
 use std::sync::Arc;
 use thiserror::Error;
 use tokio::sync::mpsc;

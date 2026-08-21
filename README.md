@@ -64,19 +64,14 @@ Every code snippet, API key, terminal command, JSON object, and URL you copy is 
 
 ## 🚀 Quick Start
 
-### 1. Installation via Script
+### 1. Windows Installer & Desktop Application
 
-#### Unix / Linux / macOS (Bash)
-```bash
-curl -fsSL https://raw.githubusercontent.com/pomagrenate/morsel/main/install.sh | bash
-```
-
-#### Windows (PowerShell)
-```powershell
-irm https://raw.githubusercontent.com/pomagrenate/morsel/main/install.ps1 | iex
-```
+- 📦 **Windows Setup Installer (`morsel-setup-v0.1.0-windows-x64.exe`)**: Download from [GitHub Releases](https://github.com/pomagrenate/morsel/releases). Installs Morsel to `C:\Program Files\Morsel`, adds Start Menu shortcuts, and registers with Windows OS Auto-Start & System Tray.
+- 🔔 **System Tray Icon (`morsel-desktop`)**: Runs quietly in the notification area with right-click menu controls (`Open Quick Search`, `Pause Monitoring`, `Launch on System Boot`, `Exit`).
 
 ---
+
+### 2. Installation via Script
 
 ### 2. Cargo Installation
 

@@ -1,0 +1,36 @@
+[package]
+name = "morsel-rs-desktop"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+readme.workspace = true
+
+[[bin]]
+name = "morsel-desktop"
+path = "src/main.rs"
+
+[dependencies]
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.0" }
+morsel-platform = { path = "../morsel-platform", package = "morsel-rs-platform", version = "0.1.0" }
+morsel-daemon = { path = "../morsel-daemon", package = "morsel-rs-daemon", version = "0.1.0" }
+tokio = { workspace = true, features = ["full"] }
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+dirs = "5.0"
+tray-icon = "0.14"
+tao = "0.28"
+auto-launch = "0.5"
+image = "0.24"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.52", features = ["Win32_UI_WindowsAndMessaging", "Win32_Foundation", "Win32_System_LibraryLoader"] }

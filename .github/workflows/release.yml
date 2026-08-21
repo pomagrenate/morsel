@@ -71,9 +71,9 @@ jobs:
         run: |
           cd target/${{ matrix.target }}/release
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            7z a ../../../${{ matrix.asset_name }}.zip ${{ matrix.artifact_name }}
+            7z a ../../../${{ matrix.asset_name }}.zip morsel*.exe
           else
-            tar czf ../../../${{ matrix.asset_name }}.tar.gz ${{ matrix.artifact_name }}
+            tar czf ../../../${{ matrix.asset_name }}.tar.gz morsel*
           fi
           cd ../..
 
@@ -151,4 +151,6 @@ jobs:
           cargo publish -p morsel-rs-cli --no-verify
           sleep 5
           cargo publish -p morsel-rs-tui --no-verify
+          sleep 5
+          cargo publish -p morsel-rs-desktop --no-verify
 

@@ -1,0 +1,12 @@
+[Unit]
+Description=Morsel Clipboard Manager Background Service
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/morsel-desktop --minimized
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target

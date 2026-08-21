@@ -20,6 +20,7 @@ license = "MIT"
 repository = "https://github.com/pomagrenate/morsel"
 homepage = "https://github.com/pomagrenate/morsel"
 description = "A modern clipboard manager with search and retention capabilities"
+readme = "README.md"
 
 [workspace.dependencies]
 # Async runtime

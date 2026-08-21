@@ -118,7 +118,7 @@ jobs:
             artifacts/*/checksums.txt
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN || secrets.GITHUB_TOKEN }}
 
   publish:
     name: Publish to crates.io
@@ -136,11 +136,19 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          cargo publish -p morsel-core
-          cargo publish -p morsel-clipboard
-          cargo publish -p morsel-storage
-          cargo publish -p morsel-search
-          cargo publish -p morsel-platform
-          cargo publish -p morsel-daemon
-          cargo publish -p morsel-cli
-          cargo publish -p morsel-tui
+          cargo publish -p morsel-core --no-verify
+          sleep 10
+          cargo publish -p morsel-storage --no-verify
+          sleep 5
+          cargo publish -p morsel-clipboard --no-verify
+          sleep 5
+          cargo publish -p morsel-search --no-verify
+          sleep 10
+          cargo publish -p morsel-platform --no-verify
+          sleep 10
+          cargo publish -p morsel-daemon --no-verify
+          sleep 10
+          cargo publish -p morsel-cli --no-verify
+          sleep 5
+          cargo publish -p morsel-tui --no-verify
+

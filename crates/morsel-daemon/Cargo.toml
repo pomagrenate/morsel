@@ -19,10 +19,10 @@ name = "morseld"
 path = "src/main.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
-morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.0" }
-morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.0" }
-morsel-platform = { path = "../morsel-platform", package = "morsel-rs-platform", version = "0.1.0" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.1" }
+morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.1" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.1" }
+morsel-platform = { path = "../morsel-platform", package = "morsel-rs-platform", version = "0.1.1" }
 tokio = { workspace = true, features = ["full"] }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }

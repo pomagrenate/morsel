@@ -1,8 +1,8 @@
 ; Inno Setup Script for Morsel Clipboard Manager
-; Builds morsel-setup-v0.1.0-windows-x64.exe
+; Builds morsel-setup-v0.1.1-windows-x64.exe
 
 #define MyAppName "Morsel Clipboard Manager"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.1.1"
 #define MyAppPublisher "Morsel Contributors"
 #define MyAppURL "https://github.com/pomagrenate/morsel"
 #define MyAppExeName "morsel-desktop.exe"
@@ -19,7 +19,7 @@ DefaultDirName={autopf}\Morsel
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=..\..\LICENSE
-OutputBaseFilename=morsel-setup-v0.1.0-windows-x64
+OutputBaseFilename=morsel-setup-v0.1.1-windows-x64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

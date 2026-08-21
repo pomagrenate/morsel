@@ -66,7 +66,7 @@ Every code snippet, API key, terminal command, JSON object, and URL you copy is 
 
 ### 1. Windows Installer & Desktop Application
 
-- 📦 **Windows Setup Installer (`morsel-setup-v0.1.0-windows-x64.exe`)**: Download from [GitHub Releases](https://github.com/pomagrenate/morsel/releases). Installs Morsel to `C:\Program Files\Morsel`, adds Start Menu shortcuts, and registers with Windows OS Auto-Start & System Tray.
+- 📦 **Windows Setup Installer (`morsel-setup-v0.1.1-windows-x64.exe`)**: Download from [GitHub Releases](https://github.com/pomagrenate/morsel/releases). Installs Morsel to `C:\Program Files\Morsel`, adds Start Menu shortcuts, and registers with Windows OS Auto-Start & System Tray.
 - 🔔 **System Tray Icon (`morsel-desktop`)**: Runs quietly in the notification area with right-click menu controls (`Open Quick Search`, `Pause Monitoring`, `Launch on System Boot`, `Exit`).
 
 ---

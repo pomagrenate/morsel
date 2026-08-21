@@ -15,7 +15,7 @@ name = "morsel_storage"
 path = "src/lib.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.1" }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["fs", "io-util"] }
 tracing = { workspace = true }

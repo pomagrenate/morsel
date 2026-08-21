@@ -342,6 +342,7 @@ impl HotkeyManager {
         Ok(())
     }
 
+    #[allow(dead_code)]
     fn generate_hotkey_id(&self, hotkey: &Hotkey) -> i32 {
         use std::collections::hash_map::DefaultHasher;
         use std::hash::{Hash, Hasher};

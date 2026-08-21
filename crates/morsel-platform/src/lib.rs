@@ -432,10 +432,180 @@ extern "C" fn macos_hotkey_handler(
 
     #[cfg(target_os = "linux")]
     fn register_linux(&self, hotkey: &Hotkey) -> Result<(), Box<dyn std::error::Error>> {
-        // TODO: Implement proper hotkey registration for Linux using X11
-        // This is a stub that needs proper implementation
-        let _hotkey_id = self.generate_hotkey_id(hotkey);
+        use x11_dl::xlib;
+        use std::ffi::CString;
+
+        let xlib = xlib::Xlib::open().map_err(|e| format!("Failed to open Xlib: {:?}", e))?;
+        unsafe {
+            let display = (xlib.XOpenDisplay)(std::ptr::null());
+            if display.is_null() {
+                return Err("Failed to open X11 display (is DISPLAY set?)".into());
+            }
+
+            let root = (xlib.XDefaultRootWindow)(display);
+
+            // Convert Key to KeySym
+            let keysym = match hotkey.key {
+                Key::Char(c) => {
+                    let s = CString::new(c.to_lowercase().to_string())?;
+                    (xlib.XStringToKeysym)(s.as_ptr())
+                }
+                Key::F1 => 0xFFBE,
+                Key::F2 => 0xFFBF,
+                Key::F3 => 0xFFC0,
+                Key::F4 => 0xFFC1,
+                Key::F5 => 0xFFC2,
+                Key::F6 => 0xFFC3,
+                Key::F7 => 0xFFC4,
+                Key::F8 => 0xFFC5,
+                Key::F9 => 0xFFC6,
+                Key::F10 => 0xFFC7,
+                Key::F11 => 0xFFC8,
+                Key::F12 => 0xFFC9,
+                Key::Space => 0x0020,
+                Key::Enter => 0xFF0D,
+                Key::Tab => 0xFF09,
+                Key::Escape => 0xFF1B,
+                Key::Backspace => 0xFF08,
+                Key::Delete => 0xFFFF,
+                Key::Insert => 0xFF63,
+                Key::Home => 0xFF50,
+                Key::End => 0xFF57,
+                Key::PageUp => 0xFF55,
+                Key::PageDown => 0xFF56,
+                Key::Up => 0xFF52,
+                Key::Down => 0xFF54,
+                Key::Left => 0xFF51,
+                Key::Right => 0xFF53,
+            };
+
+            let keycode = (xlib.XKeysymToKeycode)(display, keysym);
+            if keycode == 0 {
+                (xlib.XCloseDisplay)(display);
+                return Err(format!("No keycode found for key in hotkey: {}", hotkey).into());
+            }
+
+            let mut modifiers: u32 = 0;
+            for modifier in &hotkey.modifiers {
+                match modifier {
+                    Modifier::Ctrl => modifiers |= xlib::ControlMask,
+                    Modifier::Alt => modifiers |= xlib::Mod1Mask,
+                    Modifier::Shift => modifiers |= xlib::ShiftMask,
+                    Modifier::Meta => modifiers |= xlib::Mod4Mask,
+                }
+            }
+
+            // Grab key with all Lock / NumLock combinations so hotkey triggers even if CapsLock/NumLock are on
+            let lock_masks = [0, xlib::LockMask, xlib::Mod2Mask, xlib::LockMask | xlib::Mod2Mask];
+            for lock_mask in lock_masks {
+                (xlib.XGrabKey)(
+                    display,
+                    keycode as i32,
+                    modifiers | lock_mask,
+                    root,
+                    1, // GrabKeyboard / OwnerEvents True
+                    xlib::GrabModeAsync,
+                    xlib::GrabModeAsync,
+                );
+            }
+
+            (xlib.XFlush)(display);
+            (xlib.XCloseDisplay)(display);
+        }
+
+        // Ensure background event loop thread is spawned to poll X11 events
+        self.ensure_linux_event_loop();
+
         Ok(())
+    }
+
+    #[cfg(target_os = "linux")]
+    fn ensure_linux_event_loop(&self) {
+        use std::sync::atomic::{AtomicBool, Ordering};
+        static EVENT_LOOP_STARTED: AtomicBool = AtomicBool::new(false);
+
+        let callbacks = Arc::clone(&self.callbacks);
+
+        if !EVENT_LOOP_STARTED.swap(true, Ordering::SeqCst) {
+            std::thread::spawn(move || {
+                use x11_dl::xlib;
+                if let Ok(xlib) = xlib::Xlib::open() {
+                    unsafe {
+                        let display = (xlib.XOpenDisplay)(std::ptr::null());
+                        if !display.is_null() {
+                            let root = (xlib.XDefaultRootWindow)(display);
+                            (xlib.XSelectInput)(display, root, xlib::KeyPressMask);
+
+                            let mut event: xlib::XEvent = std::mem::zeroed();
+                            loop {
+                                (xlib.XNextEvent)(display, &mut event);
+                                if event.get_type() == xlib::KeyPress {
+                                    let xkey = xlib::XKeyEvent::from(event);
+                                    let keysym = (xlib.XKeycodeToKeysym)(display, xkey.keycode as u8, 0);
+
+                                    let callbacks_guard = callbacks.lock().unwrap();
+                                    for (hk, cb) in callbacks_guard.iter() {
+                                        let expected_keysym = match hk.key {
+                                            Key::Char(c) => {
+                                                if let Ok(s) = std::ffi::CString::new(c.to_lowercase().to_string()) {
+                                                    (xlib.XStringToKeysym)(s.as_ptr())
+                                                } else {
+                                                    0
+                                                }
+                                            }
+                                            Key::F1 => 0xFFBE,
+                                            Key::F2 => 0xFFBF,
+                                            Key::F3 => 0xFFC0,
+                                            Key::F4 => 0xFFC1,
+                                            Key::F5 => 0xFFC2,
+                                            Key::F6 => 0xFFC3,
+                                            Key::F7 => 0xFFC4,
+                                            Key::F8 => 0xFFC5,
+                                            Key::F9 => 0xFFC6,
+                                            Key::F10 => 0xFFC7,
+                                            Key::F11 => 0xFFC8,
+                                            Key::F12 => 0xFFC9,
+                                            Key::Space => 0x0020,
+                                            Key::Enter => 0xFF0D,
+                                            Key::Tab => 0xFF09,
+                                            Key::Escape => 0xFF1B,
+                                            Key::Backspace => 0xFF08,
+                                            Key::Delete => 0xFFFF,
+                                            Key::Insert => 0xFF63,
+                                            Key::Home => 0xFF50,
+                                            Key::End => 0xFF57,
+                                            Key::PageUp => 0xFF55,
+                                            Key::PageDown => 0xFF56,
+                                            Key::Up => 0xFF52,
+                                            Key::Down => 0xFF54,
+                                            Key::Left => 0xFF51,
+                                            Key::Right => 0xFF53,
+                                        };
+
+                                        if keysym == expected_keysym {
+                                            let mut expected_mods: u32 = 0;
+                                            for modifier in &hk.modifiers {
+                                                match modifier {
+                                                    Modifier::Ctrl => expected_mods |= xlib::ControlMask,
+                                                    Modifier::Alt => expected_mods |= xlib::Mod1Mask,
+                                                    Modifier::Shift => expected_mods |= xlib::ShiftMask,
+                                                    Modifier::Meta => expected_mods |= xlib::Mod4Mask,
+                                                }
+                                            }
+
+                                            let actual_mods = xkey.state & !(xlib::LockMask | xlib::Mod2Mask);
+                                            if actual_mods == expected_mods {
+                                                cb();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 }
 

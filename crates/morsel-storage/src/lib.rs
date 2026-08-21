@@ -578,7 +578,7 @@ impl StorageBackend for SqliteStorage {
             let conn = pool.get().map_err(|e| StorageError::DatabaseError(e.to_string()))?;
             
             conn.execute(
-                "INSERT INTO clipboard_items (id, content, content_type, created_at, last_used_at, size, is_favorite, tags, collection_id, expires_at, source)
+                "INSERT OR REPLACE INTO clipboard_items (id, content, content_type, created_at, last_used_at, size, is_favorite, tags, collection_id, expires_at, source)
                  VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
                 params![
                     id, content, content_type, created_at, last_used_at, size, is_favorite, tags, collection_id, expires_at, source

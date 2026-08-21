@@ -744,16 +744,16 @@ Platform Integration
 
 # Phase 17 — Developer Tooling
 
-* [ ] Add `cargo fmt` CI
-* [ ] Add `cargo clippy` CI
-* [ ] Add `cargo test` CI
-* [ ] Add release builds
-* [ ] Add benchmark CI where appropriate
-* [ ] Add dependency auditing
-* [ ] Add security auditing
-* [ ] Add code coverage
-* [ ] Add documentation checks
-* [ ] Add cross-platform build matrix
+* [x] Add `cargo fmt` CI
+* [x] Add `cargo clippy` CI
+* [x] Add `cargo test` CI
+* [x] Add release builds
+* [x] Add benchmark CI where appropriate
+* [x] Add dependency auditing
+* [x] Add security auditing
+* [x] Add code coverage
+* [x] Add documentation checks
+* [x] Add cross-platform build matrix
 
 ---
 

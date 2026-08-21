@@ -492,7 +492,7 @@ extern "C" fn macos_hotkey_handler(
         };
         
         // Get keycode from keysym
-        let keycode = unsafe { XKeysymToKeycode(display, keysym as u32) };
+        let keycode = unsafe { XKeysymToKeycode(display, keysym) };
         if keycode == 0 {
             unsafe { XCloseDisplay(display) };
             return Err("Failed to get keycode".into());

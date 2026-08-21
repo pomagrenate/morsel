@@ -8,6 +8,10 @@ license.workspace = true
 repository.workspace = true
 homepage.workspace = true
 
+[lib]
+name = "morsel_daemon"
+path = "src/lib.rs"
+
 [[bin]]
 name = "morseld"
 path = "src/main.rs"

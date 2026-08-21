@@ -23,7 +23,6 @@ use ratatui::{
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tracing::{error, info, Level};
-use tracing_subscriber;
 
 /// Application state
 struct AppState {

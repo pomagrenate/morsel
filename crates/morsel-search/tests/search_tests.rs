@@ -286,7 +286,7 @@ fn test_search_with_duplicates() {
     let query = SearchQuery::new("duplicate".to_string());
     let results = engine.search(&query).unwrap();
     // Should return both duplicate items
-    assert!(results.len() >= 1);
+    assert!(!results.is_empty());
 }
 
 #[test]
@@ -294,9 +294,9 @@ fn test_search_query_defaults() {
     let query = SearchQuery::new("test".to_string());
     
     assert_eq!(query.text, "test");
-    assert!(query.case_insensitive == false);
-    assert!(query.fuzzy == false);
+    assert!(!query.case_insensitive);
+    assert!(!query.fuzzy);
     assert!(query.content_type.is_none());
-    assert!(query.favorite_only == false);
+    assert!(!query.favorite_only);
     assert!(query.limit.is_none());
 }

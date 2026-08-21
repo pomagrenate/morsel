@@ -143,7 +143,7 @@ impl Hotkey {
     }
 
     /// Convert to string representation.
-    pub fn to_string(&self) -> String {
+    pub fn to_string_representation(&self) -> String {
         let mut parts = Vec::new();
         for modifier in &self.modifiers {
             parts.push(match modifier {
@@ -190,7 +190,47 @@ impl Hotkey {
 
 impl std::fmt::Display for Hotkey {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.to_string())
+        let mut parts = Vec::new();
+        for modifier in &self.modifiers {
+            parts.push(match modifier {
+                Modifier::Ctrl => "Ctrl",
+                Modifier::Alt => "Alt",
+                Modifier::Shift => "Shift",
+                Modifier::Meta => "Meta",
+            });
+        }
+        let key_str = match self.key {
+            Key::Char(c) => c.to_string(),
+            Key::F1 => "F1".to_string(),
+            Key::F2 => "F2".to_string(),
+            Key::F3 => "F3".to_string(),
+            Key::F4 => "F4".to_string(),
+            Key::F5 => "F5".to_string(),
+            Key::F6 => "F6".to_string(),
+            Key::F7 => "F7".to_string(),
+            Key::F8 => "F8".to_string(),
+            Key::F9 => "F9".to_string(),
+            Key::F10 => "F10".to_string(),
+            Key::F11 => "F11".to_string(),
+            Key::F12 => "F12".to_string(),
+            Key::Space => "Space".to_string(),
+            Key::Enter => "Enter".to_string(),
+            Key::Tab => "Tab".to_string(),
+            Key::Escape => "Escape".to_string(),
+            Key::Backspace => "Backspace".to_string(),
+            Key::Delete => "Delete".to_string(),
+            Key::Insert => "Insert".to_string(),
+            Key::Home => "Home".to_string(),
+            Key::End => "End".to_string(),
+            Key::PageUp => "PageUp".to_string(),
+            Key::PageDown => "PageDown".to_string(),
+            Key::Up => "Up".to_string(),
+            Key::Down => "Down".to_string(),
+            Key::Left => "Left".to_string(),
+            Key::Right => "Right".to_string(),
+        };
+        parts.push(&key_str);
+        write!(f, "{}", parts.join("+"))
     }
 }
 
@@ -498,7 +538,8 @@ pub struct PlatformClipboard;
 
 impl PlatformClipboard {
     /// Create a new platform clipboard provider.
-    pub fn new() -> Arc<dyn morsel_clipboard::ClipboardProvider> {
+    /// Create a platform-specific clipboard provider.
+    pub fn create_provider() -> Arc<dyn morsel_clipboard::ClipboardProvider> {
         // TODO: Implement platform-specific clipboard providers
         // For now, return a placeholder
         Arc::new(PlaceholderClipboard)

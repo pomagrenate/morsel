@@ -1,7 +1,6 @@
 //! Integration tests for clipboard → storage.
 
-use morsel_clipboard::{ClipboardMonitor, InMemoryClipboard, MonitorConfig};
-use morsel_core::ClipboardItem;
+use morsel_clipboard::{ClipboardMonitor, ClipboardProvider, InMemoryClipboard, MonitorConfig};
 use morsel_storage::{SqliteStorage, StorageBackend, StorageConfig};
 use std::sync::Arc;
 use tempfile::NamedTempFile;
@@ -11,8 +10,8 @@ async fn create_test_storage() -> SqliteStorage {
     let temp_file = NamedTempFile::new().unwrap();
     let config = StorageConfig {
         db_path: temp_file.path().to_str().unwrap().to_string(),
+        max_connections: 10,
         enable_wal: false,
-        ..Default::default()
     };
     let storage = SqliteStorage::new(config).unwrap();
     storage.initialize().await.unwrap();

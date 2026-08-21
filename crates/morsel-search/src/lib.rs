@@ -198,7 +198,7 @@ impl SearchEngine {
         }
 
         // Sort by score (descending)
-        results.sort_by(|a, b| b.score.cmp(&a.score));
+        results.sort_by_key(|b| std::cmp::Reverse(b.score));
 
         // Apply limit
         if let Some(limit) = query.limit {

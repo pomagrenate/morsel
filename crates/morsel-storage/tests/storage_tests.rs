@@ -135,9 +135,7 @@ async fn test_storage_delete_older_than() {
     storage.insert(&new_item).await.unwrap();
     
     let cutoff = Utc::now() - chrono::Duration::hours(1);
-    let deleted = storage.delete_older_than(cutoff).await.unwrap();
-    
-    assert!(deleted >= 0);
+    let _deleted = storage.delete_older_than(cutoff).await.unwrap();
 }
 
 #[tokio::test]

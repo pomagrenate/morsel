@@ -12,7 +12,6 @@ use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::sync::Arc;
 use tracing::{debug, error, info, Level};
-use tracing_subscriber;
 
 /// Global configuration for morsel
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -479,7 +478,7 @@ async fn cmd_get(id: String, config: MorselConfig) -> Result<()> {
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let item_id = morsel_core::ItemId::from_str(&id)
+    let item_id = morsel_core::ItemId::from_uuid_str(&id)
         .context("Invalid item ID format")?;
 
     let item = storage.get(item_id).await?;
@@ -507,7 +506,7 @@ async fn cmd_delete(id: String, config: MorselConfig) -> Result<()> {
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let item_id = morsel_core::ItemId::from_str(&id)
+    let item_id = morsel_core::ItemId::from_uuid_str(&id)
         .context("Invalid item ID format")?;
 
     storage.delete(item_id).await?;
@@ -570,7 +569,7 @@ async fn cmd_pin(id: String, config: MorselConfig) -> Result<()> {
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let item_id = morsel_core::ItemId::from_str(&id)
+    let item_id = morsel_core::ItemId::from_uuid_str(&id)
         .context("Invalid item ID format")?;
 
     let mut item = storage.get(item_id).await?;
@@ -590,7 +589,7 @@ async fn cmd_unpin(id: String, config: MorselConfig) -> Result<()> {
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let item_id = morsel_core::ItemId::from_str(&id)
+    let item_id = morsel_core::ItemId::from_uuid_str(&id)
         .context("Invalid item ID format")?;
 
     let mut item = storage.get(item_id).await?;
@@ -701,7 +700,7 @@ async fn cmd_collection_create(name: String, config: MorselConfig) -> Result<()>
 
     // Create a placeholder item to represent the collection
     let mut item = morsel_core::ClipboardItem::new(format!("Collection: {}", name));
-    let collection_id = morsel_core::ItemId::from_str(&name)
+    let collection_id = morsel_core::ItemId::from_uuid_str(&name)
         .unwrap_or_else(|_| morsel_core::ItemId::new());
     item.collection_id = Some(collection_id);
     storage.insert(&item).await?;
@@ -719,7 +718,7 @@ async fn cmd_collection_delete(name: String, config: MorselConfig) -> Result<()>
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let collection_id = morsel_core::ItemId::from_str(&name)
+    let collection_id = morsel_core::ItemId::from_uuid_str(&name)
         .context("Invalid collection ID format")?;
 
     let items = storage.list().await?;
@@ -747,9 +746,9 @@ async fn cmd_collection_add(id: String, collection: String, config: MorselConfig
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let item_id = morsel_core::ItemId::from_str(&id)
+    let item_id = morsel_core::ItemId::from_uuid_str(&id)
         .context("Invalid item ID format")?;
-    let collection_id = morsel_core::ItemId::from_str(&collection)
+    let collection_id = morsel_core::ItemId::from_uuid_str(&collection)
         .context("Invalid collection ID format")?;
 
     let mut item = storage.get(item_id).await?;
@@ -769,9 +768,9 @@ async fn cmd_collection_remove(id: String, collection: String, config: MorselCon
     let storage = SqliteStorage::new(storage_config)?;
     storage.initialize().await?;
 
-    let item_id = morsel_core::ItemId::from_str(&id)
+    let item_id = morsel_core::ItemId::from_uuid_str(&id)
         .context("Invalid item ID format")?;
-    let collection_id = morsel_core::ItemId::from_str(&collection)
+    let collection_id = morsel_core::ItemId::from_uuid_str(&collection)
         .context("Invalid collection ID format")?;
 
     let mut item = storage.get(item_id).await?;
@@ -786,6 +785,7 @@ async fn cmd_collection_remove(id: String, collection: String, config: MorselCon
     Ok(())
 }
 
+#[allow(dead_code)]
 async fn cmd_daemon_start(interval: u64, db_path: String, _config: MorselConfig) -> Result<()> {
     info!("Starting morsel daemon with interval: {}ms", interval);
     info!("Database path: {}", db_path);

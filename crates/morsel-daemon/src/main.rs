@@ -2,7 +2,7 @@
 //!
 //! Background daemon process for clipboard monitoring.
 
-mod ipc;
+pub mod ipc;
 
 use anyhow::Result;
 use ipc::{IpcRequest, IpcResponse, IpcServer};
@@ -12,7 +12,6 @@ use morsel_storage::{SqliteStorage, StorageBackend, StorageConfig};
 use std::sync::Arc;
 use tokio::signal;
 use tracing::{error, info, Level};
-use tracing_subscriber;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -36,7 +35,7 @@ async fn main() -> Result<()> {
     storage.initialize().await?;
 
     // Initialize clipboard provider
-    let clipboard = PlatformClipboard::new();
+    let clipboard = PlatformClipboard::create_provider();
 
     // Initialize clipboard monitor
     let config = MonitorConfig {
@@ -170,7 +169,7 @@ async fn handle_client(client: &mut ipc::ClientConnection, storage: Arc<SqliteSt
         }
         IpcRequest::GetItem { id } => {
             use morsel_core::ItemId;
-            match ItemId::from_str(&id) {
+            match ItemId::from_uuid_str(&id) {
                 Ok(item_id) => {
                     match storage.get(item_id).await {
                         Ok(item) => {
@@ -226,7 +225,7 @@ async fn handle_client(client: &mut ipc::ClientConnection, storage: Arc<SqliteSt
         }
         IpcRequest::DeleteItem { id } => {
             use morsel_core::ItemId;
-            match ItemId::from_str(&id) {
+            match ItemId::from_uuid_str(&id) {
                 Ok(item_id) => {
                     match storage.delete(item_id).await {
                         Ok(_) => {

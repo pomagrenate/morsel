@@ -1,8 +1,6 @@
 //! Integration tests for CLI → daemon.
 
 use morsel_daemon::ipc::{IpcClient, IpcRequest, IpcResponse};
-use std::time::Duration;
-use tokio::time::sleep;
 
 #[tokio::test]
 async fn test_ipc_client_status_request() {
@@ -15,14 +13,17 @@ async fn test_ipc_client_status_request() {
         }
     };
     
-    let request = IpcRequest::Status;
+    let request = IpcRequest::GetHistory { limit: 10 };
     let response = client.send_request(&request);
     
     match response {
-        Ok(IpcResponse::Status { running }) => {
-            assert!(running == true || running == false);
+        Ok(IpcResponse::Success { data }) => {
+            assert!(data.is_some());
         }
-        Ok(_) => panic!("Expected Status response"),
+        Ok(IpcResponse::Error { message }) => {
+            // Might fail if daemon has no items
+            assert!(!message.is_empty());
+        }
         Err(_) => {
             // Connection failed, daemon not running
         }
@@ -44,13 +45,11 @@ async fn test_ipc_client_get_history_request() {
             assert!(data.is_some());
         }
         Ok(IpcResponse::Error { message }) => {
-            // Might fail if daemon has no items
             assert!(!message.is_empty());
         }
         Err(_) => {
             // Connection failed
         }
-        _ => panic!("Expected Success or Error response"),
     }
 }
 
@@ -74,7 +73,6 @@ async fn test_ipc_client_search_request() {
         Err(_) => {
             // Connection failed
         }
-        _ => panic!("Expected Success or Error response"),
     }
 }
 
@@ -98,7 +96,6 @@ async fn test_ipc_client_add_item_request() {
         Err(_) => {
             // Connection failed
         }
-        _ => panic!("Expected Success or Error response"),
     }
 }
 
@@ -122,7 +119,6 @@ async fn test_ipc_client_clear_history_request() {
         Err(_) => {
             // Connection failed
         }
-        _ => panic!("Expected Success or Error response"),
     }
 }
 
@@ -146,33 +142,34 @@ async fn test_ipc_client_stop_request() {
         Err(_) => {
             // Connection failed
         }
-        _ => panic!("Expected Success or Error response"),
     }
 }
 
 #[test]
 fn test_ipc_request_serialization() {
-    let request = IpcRequest::Status;
+    let request = IpcRequest::GetHistory { limit: 10 };
     let serialized = serde_json::to_string(&request).unwrap();
     let deserialized: IpcRequest = serde_json::from_str(&serialized).unwrap();
     
     match deserialized {
-        IpcRequest::Status => {}
-        _ => panic!("Expected Status request"),
+        IpcRequest::GetHistory { limit } => {
+            assert_eq!(limit, 10);
+        }
+        _ => panic!("Expected GetHistory request"),
     }
 }
 
 #[test]
 fn test_ipc_response_serialization() {
-    let response = IpcResponse::Status { running: true };
+    let response = IpcResponse::Success { data: Some(serde_json::json!({"test": true})) };
     let serialized = serde_json::to_string(&response).unwrap();
     let deserialized: IpcResponse = serde_json::from_str(&serialized).unwrap();
     
     match deserialized {
-        IpcResponse::Status { running } => {
-            assert!(running);
+        IpcResponse::Success { data } => {
+            assert!(data.is_some());
         }
-        _ => panic!("Expected Status response"),
+        _ => panic!("Expected Success response"),
     }
 }
 

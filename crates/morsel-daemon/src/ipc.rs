@@ -18,6 +18,7 @@ pub enum IpcError {
     SerializationError(String),
     
     #[error("Invalid request: {0}")]
+    #[allow(dead_code)]
     InvalidRequest(String),
     
     #[error("IO error: {0}")]
@@ -75,6 +76,7 @@ impl IpcServer {
     }
 
     /// Get the local address the server is bound to.
+    #[allow(dead_code)]
     pub fn local_addr(&self) -> Result<std::net::SocketAddr, IpcError> {
         self.listener.local_addr()
             .map_err(|e| IpcError::ConnectionError(format!("Failed to get local address: {}", e)))
@@ -104,7 +106,7 @@ impl ClientConnection {
         let mut line = String::new();
         reader.read_line(&mut line)?;
         
-        let request: IpcRequest = serde_json::from_str(&line.trim())
+        let request: IpcRequest = serde_json::from_str(line.trim())
             .map_err(|e| IpcError::SerializationError(format!("Failed to parse request: {}", e)))?;
         
         Ok(request)
@@ -124,10 +126,12 @@ impl ClientConnection {
 }
 
 /// IPC client for connecting to the daemon.
+#[allow(dead_code)]
 pub struct IpcClient {
     stream: TcpStream,
 }
 
+#[allow(dead_code)]
 impl IpcClient {
     /// Connect to the IPC server.
     pub fn connect(addr: &str) -> Result<Self, IpcError> {
@@ -149,7 +153,7 @@ impl IpcClient {
         let mut line = String::new();
         reader.read_line(&mut line)?;
         
-        let response: IpcResponse = serde_json::from_str(&line.trim())
+        let response: IpcResponse = serde_json::from_str(line.trim())
             .map_err(|e| IpcError::SerializationError(format!("Failed to parse response: {}", e)))?;
         
         Ok(response)

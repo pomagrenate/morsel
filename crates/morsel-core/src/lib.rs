@@ -347,7 +347,7 @@ impl ItemId {
     }
 
     /// Create an ItemId from a UUID string.
-    pub fn from_str(s: &str) -> Result<Self> {
+    pub fn from_uuid_str(s: &str) -> Result<Self> {
         let uuid = Uuid::parse_str(s)
             .map_err(|e| CoreError::InvalidUuid(e.to_string()))?;
         Ok(Self(uuid))
@@ -501,10 +501,9 @@ impl ContentType {
         }
 
         // Check for file path (basic heuristic)
-        if content.contains('/') || content.contains('\\') {
-            if content.contains('.') && !content.contains(' ') {
-                return ContentType::File;
-            }
+        if (content.contains('/') || content.contains('\\'))
+            && content.contains('.') && !content.contains(' ') {
+            return ContentType::File;
         }
 
         // Default to text
@@ -1058,9 +1057,9 @@ mod tests {
     }
 
     #[test]
-    fn test_item_id_from_str() {
+    fn test_item_id_from_uuid_str() {
         let uuid_str = "550e8400-e29b-41d4-a716-446655440000";
-        let id = ItemId::from_str(uuid_str).unwrap();
+        let id = ItemId::from_uuid_str(uuid_str).unwrap();
         assert_eq!(id.to_string(), uuid_str);
     }
 

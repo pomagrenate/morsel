@@ -592,7 +592,7 @@ mod tests {
         
         // Count received events
         let mut event_count = 0;
-        while let Ok(_) = receiver.try_recv() {
+        while receiver.try_recv().is_ok() {
             event_count += 1;
         }
         

@@ -1,7 +1,6 @@
 //! Integration tests for import → storage and export → import.
 
 use morsel_core::{Backup, ClipboardItem, ItemId};
-use serde_json;
 
 #[test]
 fn test_export_to_backup() {

@@ -10,11 +10,10 @@ fn create_test_storage() -> SqliteStorage {
     let temp_file = NamedTempFile::new().unwrap();
     let config = StorageConfig {
         db_path: temp_file.path().to_str().unwrap().to_string(),
+        max_connections: 10,
         enable_wal: false,
-        ..Default::default()
     };
-    let storage = SqliteStorage::new(config).unwrap();
-    storage
+    SqliteStorage::new(config).unwrap()
 }
 
 fn bench_storage_insert(c: &mut Criterion) {

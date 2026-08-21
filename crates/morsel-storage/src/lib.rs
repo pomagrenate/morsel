@@ -418,7 +418,7 @@ impl SqliteStorage {
             let expires_at_opt: Option<String> = row.get(9)?;
             
             Ok(ClipboardItem {
-                id: ItemId::from_str(&id_str).map_err(|e| rusqlite::Error::ToSqlConversionFailure(e.into()))?,
+                id: ItemId::from_uuid_str(&id_str).map_err(|e| rusqlite::Error::ToSqlConversionFailure(e.into()))?,
                 content: row.get(1)?,
                 content_type: content_type_str.parse::<morsel_core::ContentType>().map_err(|e| rusqlite::Error::ToSqlConversionFailure(e.into()))?,
                 created_at: DateTime::parse_from_rfc3339(&created_at_str)
@@ -430,7 +430,7 @@ impl SqliteStorage {
                 size: row.get(5)?,
                 is_favorite: row.get(6)?,
                 tags: Self::deserialize_tags(&tags_str),
-                collection_id: collection_id_opt.and_then(|s| ItemId::from_str(&s).ok()),
+                collection_id: collection_id_opt.and_then(|s| ItemId::from_uuid_str(&s).ok()),
                 expires_at: expires_at_opt.and_then(|s| DateTime::parse_from_rfc3339(&s).ok().map(|dt| dt.with_timezone(&Utc))),
                 source: row.get(10)?,
             })
@@ -456,7 +456,7 @@ impl SqliteStorage {
             let data: Vec<u8> = row.get(4)?;
             
             Ok(BackupBlob::new(
-                ItemId::from_str(&id).map_err(|e| rusqlite::Error::ToSqlConversionFailure(e.into()))?,
+                ItemId::from_uuid_str(&id).map_err(|e| rusqlite::Error::ToSqlConversionFailure(e.into()))?,
                 mime_type,
                 &data,
             ))
@@ -474,7 +474,7 @@ impl SqliteStorage {
     /// Import a backup into the database.
     pub async fn import_backup(&self, backup: Backup) -> StorageResult<()> {
         // Validate backup
-        backup.validate().map_err(|e| StorageError::CoreError(e))?;
+        backup.validate().map_err(StorageError::CoreError)?;
 
         let conn = self.pool
             .get()
@@ -508,7 +508,7 @@ impl SqliteStorage {
 
         // Import blobs
         for blob in &backup.blobs {
-            let data = blob.decode_data().map_err(|e| StorageError::CoreError(e))?;
+            let data = blob.decode_data().map_err(StorageError::CoreError)?;
             conn.execute(
                 "INSERT OR REPLACE INTO blobs (id, mime_type, size, hash, data, created_at)
                  VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
@@ -622,7 +622,7 @@ impl StorageBackend for SqliteStorage {
                 let expires_at_str: Option<String> = row.get(9)?;
                 let source: Option<String> = row.get(10)?;
 
-                let id = ItemId::from_str(&id_str)
+                let id = ItemId::from_uuid_str(&id_str)
                     .map_err(|e| rusqlite::Error::ToSqlConversionFailure(Box::new(e)))?;
                 let content_type = match content_type_str.as_str() {
                     "text" => morsel_core::ContentType::Text,
@@ -640,7 +640,7 @@ impl StorageBackend for SqliteStorage {
                     .with_timezone(&Utc);
                 let tags = serde_json::from_str(&tags_str)
                     .unwrap_or_else(|_| Vec::new());
-                let collection_id = collection_id_str.and_then(|s| ItemId::from_str(&s).ok());
+                let collection_id = collection_id_str.and_then(|s| ItemId::from_uuid_str(&s).ok());
                 let expires_at = expires_at_str.and_then(|s| {
                     DateTime::parse_from_rfc3339(&s)
                         .ok()
@@ -725,7 +725,7 @@ impl StorageBackend for SqliteStorage {
                 let expires_at_str: Option<String> = row.get(9)?;
                 let source: Option<String> = row.get(10)?;
 
-                let id = ItemId::from_str(&id_str)
+                let id = ItemId::from_uuid_str(&id_str)
                     .map_err(|e| rusqlite::Error::ToSqlConversionFailure(Box::new(e)))?;
                 let content_type = match content_type_str.as_str() {
                     "text" => morsel_core::ContentType::Text,
@@ -743,7 +743,7 @@ impl StorageBackend for SqliteStorage {
                     .with_timezone(&Utc);
                 let tags = serde_json::from_str(&tags_str)
                     .unwrap_or_else(|_| Vec::new());
-                let collection_id = collection_id_str.and_then(|s| ItemId::from_str(&s).ok());
+                let collection_id = collection_id_str.and_then(|s| ItemId::from_uuid_str(&s).ok());
                 let expires_at = expires_at_str.and_then(|s| {
                     DateTime::parse_from_rfc3339(&s)
                         .ok()
@@ -888,7 +888,7 @@ impl StorageBackend for SqliteStorage {
             )
             .map_err(|e| StorageError::DatabaseError(e.to_string()))?;
             
-            Ok::<usize, StorageError>(rows_affected as usize)
+            Ok::<usize, StorageError>(rows_affected)
         })
         .await
         .map_err(|e| StorageError::DatabaseError(e.to_string()))?
@@ -907,7 +907,7 @@ impl StorageBackend for SqliteStorage {
             )
             .map_err(|e| StorageError::DatabaseError(e.to_string()))?;
             
-            Ok::<usize, StorageError>(rows_affected as usize)
+            Ok::<usize, StorageError>(rows_affected)
         })
         .await
         .map_err(|e| StorageError::DatabaseError(e.to_string()))?
@@ -934,7 +934,7 @@ impl StorageBackend for SqliteStorage {
             .ok();
 
             if let Some(existing_id) = existing {
-                let existing_item_id = ItemId::from_str(&existing_id)
+                let existing_item_id = ItemId::from_uuid_str(&existing_id)
                     .map_err(|e| StorageError::DatabaseError(e.to_string()))?;
                 return Ok::<ItemId, StorageError>(existing_item_id);
             }
@@ -990,7 +990,7 @@ impl StorageBackend for SqliteStorage {
                 let id_str: String = row.get(0)?;
                 let mime_type: String = row.get(1)?;
                 let data: Vec<u8> = row.get(2)?;
-                let id = ItemId::from_str(&id_str)
+                let id = ItemId::from_uuid_str(&id_str)
                     .map_err(|e| rusqlite::Error::ToSqlConversionFailure(Box::new(e)))?;
                 Ok((id, mime_type, data))
             })
@@ -1040,7 +1040,7 @@ impl StorageBackend for SqliteStorage {
             )
             .map_err(|e| StorageError::DatabaseError(e.to_string()))?;
             
-            Ok::<usize, StorageError>(rows_affected as usize)
+            Ok::<usize, StorageError>(rows_affected)
         })
         .await
         .map_err(|e| StorageError::DatabaseError(e.to_string()))?
@@ -1058,7 +1058,7 @@ impl StorageBackend for SqliteStorage {
             )
             .map_err(|e| StorageError::DatabaseError(e.to_string()))?;
             
-            Ok::<usize, StorageError>(rows_affected as usize)
+            Ok::<usize, StorageError>(rows_affected)
         })
         .await
         .map_err(|e| StorageError::DatabaseError(e.to_string()))?
@@ -1402,7 +1402,6 @@ mod tests {
             db_path,
             max_connections: 10,
             enable_wal: false,
-            ..Default::default()
         };
         
         let storage = Arc::new(SqliteStorage::new(config).unwrap());
@@ -1619,10 +1618,9 @@ mod tests {
         storage.delete(item.id).await.unwrap();
         
         // Clean up orphaned blobs
-        let cleaned = storage.cleanup_orphaned_blobs().await.unwrap();
+        let _cleaned = storage.cleanup_orphaned_blobs().await.unwrap();
         // The blob cleanup may not work as expected in this test scenario
         // Just verify it doesn't error
-        assert!(cleaned >= 0);
     }
 
     #[tokio::test]

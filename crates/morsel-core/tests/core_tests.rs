@@ -9,7 +9,7 @@ fn test_item_id_generation() {
     let id2 = ItemId::new();
     
     assert_ne!(id1, id2, "Item IDs should be unique");
-    assert!(id1.to_string().len() > 0, "Item ID should have string representation");
+    assert!(!id1.to_string().is_empty(), "Item ID should have string representation");
 }
 
 #[test]
@@ -17,14 +17,14 @@ fn test_item_id_parsing() {
     let id = ItemId::new();
     let id_str = id.to_string();
     
-    let parsed = ItemId::from_str(&id_str);
+    let parsed = ItemId::from_uuid_str(&id_str);
     assert!(parsed.is_ok(), "Should be able to parse Item ID from string");
     assert_eq!(parsed.unwrap(), id, "Parsed ID should match original");
 }
 
 #[test]
 fn test_item_id_invalid_parsing() {
-    let result = ItemId::from_str("invalid-id");
+    let result = ItemId::from_uuid_str("invalid-id");
     assert!(result.is_err(), "Invalid ID string should fail to parse");
 }
 
@@ -52,7 +52,7 @@ fn test_content_type_display() {
 }
 
 #[test]
-fn test_content_type_from_str() {
+fn test_content_type_from_uuid_str() {
     assert_eq!("text".parse::<ContentType>().unwrap(), ContentType::Text);
     assert_eq!("url".parse::<ContentType>().unwrap(), ContentType::Url);
     assert_eq!("email".parse::<ContentType>().unwrap(), ContentType::Email);
@@ -60,7 +60,7 @@ fn test_content_type_from_str() {
 }
 
 #[test]
-fn test_content_type_invalid_from_str() {
+fn test_content_type_invalid_from_uuid_str() {
     let result = "invalid_type".parse::<ContentType>();
     assert!(result.is_err(), "Invalid content type should fail to parse");
 }

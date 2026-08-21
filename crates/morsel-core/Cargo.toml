@@ -1,5 +1,5 @@
 [package]
-name = "morsel-core"
+name = "morsel-rs-core"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -7,6 +7,12 @@ authors.workspace = true
 license.workspace = true
 repository.workspace = true
 homepage.workspace = true
+description.workspace = true
+readme.workspace = true
+
+[lib]
+name = "morsel_core"
+path = "src/lib.rs"
 
 [dependencies]
 serde = { workspace = true, features = ["derive"] }

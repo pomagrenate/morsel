@@ -1,5 +1,5 @@
 [package]
-name = "morsel-daemon"
+name = "morsel-rs-daemon"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -7,16 +7,22 @@ authors.workspace = true
 license.workspace = true
 repository.workspace = true
 homepage.workspace = true
+description.workspace = true
+readme.workspace = true
+
+[lib]
+name = "morsel_daemon"
+path = "src/lib.rs"
 
 [[bin]]
 name = "morseld"
 path = "src/main.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
-morsel-clipboard = { path = "../morsel-clipboard" }
-morsel-storage = { path = "../morsel-storage" }
-morsel-platform = { path = "../morsel-platform" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.0" }
+morsel-platform = { path = "../morsel-platform", package = "morsel-rs-platform", version = "0.1.0" }
 tokio = { workspace = true, features = ["full"] }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }

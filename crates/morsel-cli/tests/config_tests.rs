@@ -2,7 +2,6 @@
 
 use tempfile::NamedTempFile;
 use std::fs;
-use std::path::PathBuf;
 
 #[test]
 fn test_default_config() {

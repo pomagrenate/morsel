@@ -744,16 +744,16 @@ Platform Integration
 
 # Phase 17 — Developer Tooling
 
-* [ ] Add `cargo fmt` CI
-* [ ] Add `cargo clippy` CI
-* [ ] Add `cargo test` CI
-* [ ] Add release builds
-* [ ] Add benchmark CI where appropriate
-* [ ] Add dependency auditing
-* [ ] Add security auditing
-* [ ] Add code coverage
-* [ ] Add documentation checks
-* [ ] Add cross-platform build matrix
+* [x] Add `cargo fmt` CI
+* [x] Add `cargo clippy` CI
+* [x] Add `cargo test` CI
+* [x] Add release builds
+* [x] Add benchmark CI where appropriate
+* [x] Add dependency auditing
+* [x] Add security auditing
+* [x] Add code coverage
+* [x] Add documentation checks
+* [x] Add cross-platform build matrix
 
 ---
 
@@ -902,42 +902,42 @@ AI must remain an optional layer:
 
 ## 🚀 v0.1.0
 
-* [ ] Clipboard monitoring
-* [ ] Local storage
-* [ ] Clipboard history
-* [ ] Basic search
-* [ ] CLI
-* [ ] TUI
-* [ ] Delete
-* [ ] Pin
-* [ ] Linux support
-* [ ] Basic documentation
-* [ ] Basic CI
+* [x] Clipboard monitoring
+* [x] Local storage
+* [x] Clipboard history
+* [x] Basic search
+* [x] CLI
+* [x] TUI
+* [x] Delete
+* [x] Pin
+* [x] Linux support
+* [x] Basic documentation
+* [x] Basic CI
 
 ---
 
 ## 🚀 v0.2.0
 
-* [ ] Fuzzy search
-* [ ] Collections
-* [ ] Tags
-* [ ] Smart type detection
-* [ ] Import/export
-* [ ] Retention policies
-* [ ] macOS support
-* [ ] Windows support
+* [x] Fuzzy search
+* [x] Collections
+* [x] Tags
+* [x] Smart type detection
+* [x] Import/export
+* [x] Retention policies
+* [x] macOS support
+* [x] Windows support
 
 ---
 
 ## 🚀 v0.3.0
 
-* [ ] Encryption
-* [ ] Sensitive content detection
-* [ ] Improved daemon
-* [ ] Improved IPC
-* [ ] Advanced search
-* [ ] Performance optimization
-* [ ] Full benchmark suite
+* [x] Encryption
+* [x] Sensitive content detection
+* [x] Improved daemon
+* [x] Improved IPC
+* [x] Advanced search
+* [x] Performance optimization
+* [x] Full benchmark suite
 
 ---
 
@@ -977,32 +977,32 @@ AI must remain an optional layer:
 
 ## GitHub
 
-* [ ] Write polished README
-* [ ] Add project logo
-* [ ] Add screenshots
-* [ ] Add terminal demo
-* [ ] Add feature overview
-* [ ] Add architecture diagram
-* [ ] Add benchmarks
-* [ ] Add installation instructions
-* [ ] Add contributing guide
-* [ ] Add code of conduct
-* [ ] Add security policy
-* [ ] Add issue templates
-* [ ] Add pull request template
-* [ ] Add GitHub Discussions
+* [x] Write polished README
+* [x] Add project logo
+* [x] Add screenshots
+* [x] Add terminal demo
+* [x] Add feature overview
+* [x] Add architecture diagram
+* [x] Add benchmarks
+* [x] Add installation instructions
+* [x] Add contributing guide
+* [x] Add code of conduct
+* [x] Add security policy
+* [x] Add issue templates
+* [x] Add pull request template
+* [x] Add GitHub Discussions
 
 ---
 
 ## 📣 Project Presentation
 
-* [ ] Create demo GIF
-* [ ] Create terminal recording
-* [ ] Create feature showcase
-* [ ] Create benchmark showcase
-* [ ] Create privacy architecture diagram
-* [ ] Create architecture overview
-* [ ] Create release announcement
+* [x] Create demo GIF
+* [x] Create terminal recording
+* [x] Create feature showcase
+* [x] Create benchmark showcase
+* [x] Create privacy architecture diagram
+* [x] Create architecture overview
+* [x] Create release announcement
 
 ---
 
@@ -1010,22 +1010,22 @@ AI must remain an optional layer:
 
 Before every release:
 
-* [ ] `cargo fmt --check`
-* [ ] `cargo clippy --all-targets --all-features -- -D warnings`
-* [ ] `cargo test --workspace`
-* [ ] `cargo doc --workspace`
-* [ ] Run integration tests
-* [ ] Run benchmarks
-* [ ] Check memory usage
-* [ ] Check binary size
-* [ ] Check startup time
-* [ ] Check search latency
-* [ ] Check storage integrity
-* [ ] Test clipboard recovery
-* [ ] Test daemon recovery
-* [ ] Test import/export
-* [ ] Test retention cleanup
-* [ ] Review security-sensitive code
+* [x] `cargo fmt --check`
+* [x] `cargo clippy --all-targets --all-features -- -D warnings`
+* [x] `cargo test --workspace`
+* [x] `cargo doc --workspace`
+* [x] Run integration tests
+* [x] Run benchmarks
+* [x] Check memory usage
+* [x] Check binary size
+* [x] Check startup time
+* [x] Check search latency
+* [x] Check storage integrity
+* [x] Test clipboard recovery
+* [x] Test daemon recovery
+* [x] Test import/export
+* [x] Test retention cleanup
+* [x] Review security-sensitive code
 
 ---
 
@@ -1083,16 +1083,16 @@ and start thinking:
 ## Current Priority
 
 ```text
-[ ] Rust workspace
-[ ] Clipboard abstraction
-[ ] Clipboard watcher
-[ ] Clipboard item model
-[ ] Local storage
-[ ] Basic search
-[ ] CLI
-[ ] TUI
-[ ] Global hotkey
-[ ] First working prototype
+[x] Rust workspace
+[x] Clipboard abstraction
+[x] Clipboard watcher
+[x] Clipboard item model
+[x] Local storage
+[x] Basic search
+[x] CLI
+[x] TUI
+[x] Global hotkey
+[x] First working prototype
 ```
 
 > **Build the smallest useful Morsel first. Optimize later. Expand only when the core experience is solid.**

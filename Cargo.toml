@@ -17,8 +17,10 @@ edition = "2021"
 rust-version = "1.75"
 authors = ["morsel contributors"]
 license = "MIT"
-repository = "https://github.com/pomegranate/morsel"
-homepage = "https://github.com/pomegranate/morsel"
+repository = "https://github.com/pomagrenate/morsel"
+homepage = "https://github.com/pomagrenate/morsel"
+description = "A modern clipboard manager with search and retention capabilities"
+readme = "README.md"
 
 [workspace.dependencies]
 # Async runtime

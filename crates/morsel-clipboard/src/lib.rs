@@ -5,7 +5,7 @@
 //! This crate provides a platform-agnostic interface for clipboard operations,
 //! including monitoring clipboard changes and retrieving clipboard content.
 
-use morsel_core::{ClipboardItem, ContentType, CoreError};
+use morsel_core::{ClipboardItem, CoreError};
 use std::sync::Arc;
 use thiserror::Error;
 use tokio::sync::mpsc;
@@ -298,6 +298,7 @@ impl ClipboardProvider for InMemoryClipboard {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use morsel_core::ContentType;
     use tokio::time::{sleep, Duration};
 
     #[tokio::test]
@@ -591,7 +592,7 @@ mod tests {
         
         // Count received events
         let mut event_count = 0;
-        while let Ok(_) = receiver.try_recv() {
+        while receiver.try_recv().is_ok() {
             event_count += 1;
         }
         

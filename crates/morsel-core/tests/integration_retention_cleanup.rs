@@ -204,7 +204,7 @@ fn test_retention_cleanup_with_sensitive_content() {
     ];
     
     // Simulate cleanup: remove items with sensitive content
-    let sensitive_keywords = vec!["api_key", "password"];
+    let sensitive_keywords = ["api_key", "password"];
     let retained_items: Vec<ClipboardItem> = items.into_iter()
         .filter(|item| {
             !sensitive_keywords.iter().any(|keyword| 

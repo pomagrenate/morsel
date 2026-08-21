@@ -1,6 +1,6 @@
 //! Daemon benchmarks for morsel-daemon.
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
 use morsel_core::ClipboardItem;
 use morsel_storage::{SqliteStorage, StorageBackend, StorageConfig};
 use tempfile::NamedTempFile;
@@ -10,11 +10,10 @@ fn create_test_storage() -> SqliteStorage {
     let temp_file = NamedTempFile::new().unwrap();
     let config = StorageConfig {
         db_path: temp_file.path().to_str().unwrap().to_string(),
+        max_connections: 10,
         enable_wal: false,
-        ..Default::default()
     };
-    let storage = SqliteStorage::new(config).unwrap();
-    storage
+    SqliteStorage::new(config).unwrap()
 }
 
 fn bench_startup_with_empty_storage(c: &mut Criterion) {

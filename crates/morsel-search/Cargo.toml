@@ -1,5 +1,5 @@
 [package]
-name = "morsel-search"
+name = "morsel-rs-search"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -7,9 +7,15 @@ authors.workspace = true
 license.workspace = true
 repository.workspace = true
 homepage.workspace = true
+description.workspace = true
+readme.workspace = true
+
+[lib]
+name = "morsel_search"
+path = "src/lib.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
 thiserror = { workspace = true }
 tracing = { workspace = true }
 chrono = { version = "0.4", features = ["serde"] }

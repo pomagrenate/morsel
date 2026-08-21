@@ -1,0 +1,83 @@
+name: 🐛 Bug / Error Report
+description: Create a report to help us fix errors, crashes, or unexpected behavior in morsel.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report an issue! Please search existing issues to ensure this bug has not already been reported.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of morsel is affected?
+      options:
+        - morsel-cli (CLI tool)
+        - morsel-tui (Terminal UI)
+        - morseld (Background Daemon)
+        - morsel-clipboard (Clipboard monitoring)
+        - morsel-storage (Database / Encryption)
+        - morsel-search (Fuzzy search)
+        - morsel-platform (OS API / Hotkeys)
+        - Build / CI / Packaging
+        - Unknown / Other
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System & Version
+      description: e.g., Windows 11 23H2, macOS Sequoia (M1/ARM64), Arch Linux (Wayland), Ubuntu 24.04 (X11)
+      placeholder: e.g., Ubuntu 24.04 LTS (Wayland)
+    validations:
+      required: true
+
+  - type: input
+    id: versions
+    attributes:
+      label: morsel & Rust Versions
+      description: Run `morsel --version` and `rustc --version`
+      placeholder: e.g., morsel v0.1.0, rustc 1.80.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description & Reproduction Steps
+      description: Describe what happened and list clear steps to reproduce the bug.
+      placeholder: |
+        1. Start the daemon with `morseld`
+        2. Copy text snippet X to system clipboard
+        3. Run `morsel search "snippet"`
+        4. See error: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: Clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Terminal Logs & Backtrace
+      description: Paste any relevant logs, panic backtraces (`RUST_BACKTRACE=1 morseld`), or terminal output here.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Self Check
+      options:
+        - label: I have searched existing issues to ensure this bug is not a duplicate.
+          required: true
+        - label: I am using the latest release or build of morsel.
+          required: false

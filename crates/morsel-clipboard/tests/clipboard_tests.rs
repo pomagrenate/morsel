@@ -98,7 +98,7 @@ async fn test_clipboard_monitor_duplicate_detection() {
     
     // Should only receive one event due to duplicate detection
     let mut event_count = 0;
-    while let Ok(_) = receiver.try_recv() {
+    while receiver.try_recv().is_ok() {
         event_count += 1;
     }
     
@@ -129,7 +129,7 @@ async fn test_clipboard_monitor_no_duplicate_detection() {
     
     // Should receive multiple events when duplicate detection is disabled
     let mut event_count = 0;
-    while let Ok(_) = receiver.try_recv() {
+    while receiver.try_recv().is_ok() {
         event_count += 1;
     }
     
@@ -160,7 +160,7 @@ async fn test_clipboard_monitor_max_buffer_size() {
     
     // Count received events
     let mut event_count = 0;
-    while let Ok(_) = receiver.try_recv() {
+    while receiver.try_recv().is_ok() {
         event_count += 1;
     }
     
@@ -226,7 +226,7 @@ async fn test_clipboard_monitor_ownership_change() {
     
     // Check if any events were received (ownership change detection is implementation-dependent)
     let mut event_count = 0;
-    while let Ok(_) = receiver.try_recv() {
+    while receiver.try_recv().is_ok() {
         event_count += 1;
     }
     

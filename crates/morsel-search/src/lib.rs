@@ -144,7 +144,7 @@ impl SearchEngine {
 
     /// Perform a search.
     pub fn search(&self, query: &SearchQuery) -> SearchResult<Vec<ScoredItem>> {
-        if query.text.is_empty() {
+        if query.text.is_empty() && query.content_type.is_none() && !query.favorite_only {
             return Ok(Vec::new());
         }
 
@@ -175,7 +175,9 @@ impl SearchEngine {
                 item.content.clone()
             };
 
-            let score = if query.fuzzy {
+            let score = if query.text.is_empty() {
+                100
+            } else if query.fuzzy {
                 // Fuzzy matching
                 self.fuzzy_matcher
                     .fuzzy_match(&item_content, &search_text)
@@ -198,7 +200,7 @@ impl SearchEngine {
         }
 
         // Sort by score (descending)
-        results.sort_by(|a, b| b.score.cmp(&a.score));
+        results.sort_by_key(|b| std::cmp::Reverse(b.score));
 
         // Apply limit
         if let Some(limit) = query.limit {

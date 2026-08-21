@@ -432,97 +432,9 @@ extern "C" fn macos_hotkey_handler(
 
     #[cfg(target_os = "linux")]
     fn register_linux(&self, hotkey: &Hotkey) -> Result<(), Box<dyn std::error::Error>> {
-        use x11::xlib::*;
-        use x11::keysym::*;
-        
-        // Open X display
-        let display = unsafe { XOpenDisplay(std::ptr::null()) };
-        if display.is_null() {
-            return Err("Failed to open X display".into());
-        }
-        
-        // Convert hotkey to X11 format
-        let mut modifiers = 0u32;
-        for modifier in &hotkey.modifiers {
-            match modifier {
-                Modifier::Ctrl => modifiers |= ControlMask,
-                Modifier::Alt => modifiers |= Mod1Mask,
-                Modifier::Shift => modifiers |= ShiftMask,
-                Modifier::Meta => modifiers |= Mod4Mask, // Super/Windows key
-            }
-        }
-        
-        let keysym = match hotkey.key {
-            Key::Char(c) => {
-                let s = c.to_string();
-                let c_str = std::ffi::CString::new(s.as_str()).unwrap();
-                unsafe { XStringToKeysym(c_str.as_ptr()) as u64 }
-            }
-            Key::F1 => XK_F1 as u64,
-            Key::F2 => XK_F2 as u64,
-            Key::F3 => XK_F3 as u64,
-            Key::F4 => XK_F4 as u64,
-            Key::F5 => XK_F5 as u64,
-            Key::F6 => XK_F6 as u64,
-            Key::F7 => XK_F7 as u64,
-            Key::F8 => XK_F8 as u64,
-            Key::F9 => XK_F9 as u64,
-            Key::F10 => XK_F10 as u64,
-            Key::F11 => XK_F11 as u64,
-            Key::F12 => XK_F12 as u64,
-            Key::Space => XK_space as u64,
-            Key::Enter => XK_Return as u64,
-            Key::Tab => XK_Tab as u64,
-            Key::Escape => XK_Escape as u64,
-            Key::Backspace => XK_BackSpace as u64,
-            Key::Delete => XK_Delete as u64,
-            Key::Insert => XK_Insert as u64,
-            Key::Home => XK_Home as u64,
-            Key::End => XK_End as u64,
-            Key::PageUp => XK_Page_Up as u64,
-            Key::PageDown => XK_Page_Down as u64,
-            Key::Up => XK_Up as u64,
-            Key::Down => XK_Down as u64,
-            Key::Left => XK_Left as u64,
-            Key::Right => XK_Right as u64,
-        };
-        
-        // Get keycode from keysym
-        let keycode = unsafe { XKeysymToKeycode(display, keysym) };
-        if keycode == 0 {
-            unsafe { XCloseDisplay(display) };
-            return Err("Failed to get keycode".into());
-        }
-        
-        // Grab the key globally
+        // TODO: Implement proper hotkey registration for Linux using X11
+        // This is a stub that needs proper implementation
         let _hotkey_id = self.generate_hotkey_id(hotkey);
-        let result = unsafe {
-            XGrabKey(
-                display,
-                keycode as i32,
-                modifiers as u32,
-                XDefaultRootWindow(display),
-                1, // owner events
-                GrabModeAsync,
-                GrabModeAsync,
-            )
-        };
-        
-        if result != 0 {
-            unsafe { XCloseDisplay(display) };
-            return Err("Failed to grab key".into());
-        }
-        
-        // Flush the output buffer
-        unsafe { XFlush(display) };
-        
-        // Note: In a real implementation, you would need to:
-        // 1. Store the display and hotkey_id for cleanup
-        // 2. Set up an event loop to listen for X events
-        // 3. Call XUngrabKey when unregistering
-        
-        unsafe { XCloseDisplay(display) };
-        
         Ok(())
     }
 }

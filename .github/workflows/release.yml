@@ -136,19 +136,19 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          cargo publish -p morsel-core --no-verify
+          cargo publish -p morsel-rs-core --no-verify
           sleep 10
-          cargo publish -p morsel-storage --no-verify
+          cargo publish -p morsel-rs-storage --no-verify
           sleep 5
-          cargo publish -p morsel-clipboard --no-verify
+          cargo publish -p morsel-rs-clipboard --no-verify
           sleep 5
-          cargo publish -p morsel-search --no-verify
+          cargo publish -p morsel-rs-search --no-verify
           sleep 10
-          cargo publish -p morsel-platform --no-verify
+          cargo publish -p morsel-rs-platform --no-verify
           sleep 10
-          cargo publish -p morsel-daemon --no-verify
+          cargo publish -p morsel-rs-daemon --no-verify
           sleep 10
-          cargo publish -p morsel-cli --no-verify
+          cargo publish -p morsel-rs-cli --no-verify
           sleep 5
-          cargo publish -p morsel-tui --no-verify
+          cargo publish -p morsel-rs-tui --no-verify
 

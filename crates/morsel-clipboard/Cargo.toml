@@ -1,5 +1,5 @@
 [package]
-name = "morsel-clipboard"
+name = "morsel-rs-clipboard"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -10,8 +10,12 @@ homepage.workspace = true
 description.workspace = true
 readme.workspace = true
 
+[lib]
+name = "morsel_clipboard"
+path = "src/lib.rs"
+
 [dependencies]
-morsel-core = { path = "../morsel-core", version = "0.1.0" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["sync", "time"] }
 tracing = { workspace = true }
@@ -19,7 +23,7 @@ async-trait = "0.1"
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
-morsel-storage = { path = "../morsel-storage", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.0" }
 tempfile = "3"
 
 [[bench]]

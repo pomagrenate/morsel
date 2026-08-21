@@ -1,5 +1,5 @@
 [package]
-name = "morsel-cli"
+name = "morsel-rs-cli"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -15,11 +15,11 @@ name = "morsel"
 path = "src/main.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core", version = "0.1.0" }
-morsel-clipboard = { path = "../morsel-clipboard", version = "0.1.0" }
-morsel-storage = { path = "../morsel-storage", version = "0.1.0" }
-morsel-search = { path = "../morsel-search", version = "0.1.0" }
-morsel-platform = { path = "../morsel-platform", version = "0.1.0" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.0" }
+morsel-search = { path = "../morsel-search", package = "morsel-rs-search", version = "0.1.0" }
+morsel-platform = { path = "../morsel-platform", package = "morsel-rs-platform", version = "0.1.0" }
 clap = { version = "4.4", features = ["derive"] }
 clap_complete = "4.4"
 thiserror = { workspace = true }
@@ -34,4 +34,4 @@ toml = "0.8"
 
 [dev-dependencies]
 tempfile = "3"
-morsel-daemon = { path = "../morsel-daemon", version = "0.1.0" }
+morsel-daemon = { path = "../morsel-daemon", package = "morsel-rs-daemon", version = "0.1.0" }

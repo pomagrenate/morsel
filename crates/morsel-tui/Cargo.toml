@@ -1,5 +1,5 @@
 [package]
-name = "morsel-tui"
+name = "morsel-rs-tui"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -15,10 +15,10 @@ name = "morsel-tui"
 path = "src/main.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core", version = "0.1.0" }
-morsel-search = { path = "../morsel-search", version = "0.1.0" }
-morsel-storage = { path = "../morsel-storage", version = "0.1.0" }
-morsel-clipboard = { path = "../morsel-clipboard", version = "0.1.0" }
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.0" }
+morsel-search = { path = "../morsel-search", package = "morsel-rs-search", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.0" }
 ratatui = { workspace = true }
 crossterm = { workspace = true }
 tokio = { workspace = true, features = ["full"] }

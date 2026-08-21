@@ -355,26 +355,26 @@ impl HotkeyManager {
     fn register_macos(&self, hotkey: &Hotkey) -> Result<(), Box<dyn std::error::Error>> {
         use cocoa::base::{nil};
         use cocoa::foundation::NSAutoreleasePool;
-        use cocoa::appkit::{NSEvent, NSApp, NSApplicationActivationPolicyAccessory, NSApplication};
+        use cocoa::appkit::{NSApp, NSApplicationActivationPolicyAccessory, NSApplication};
         
         let pool = unsafe { NSAutoreleasePool::new(nil) };
         
         // Convert hotkey to macOS format
-        let mut cmd_key = false;
-        let mut ctrl_key = false;
-        let mut alt_key = false;
-        let mut shift_key = false;
+        let mut _cmd_key = false;
+        let mut _ctrl_key = false;
+        let mut _alt_key = false;
+        let mut _shift_key = false;
         
         for modifier in &hotkey.modifiers {
             match modifier {
-                Modifier::Ctrl => ctrl_key = true,
-                Modifier::Alt => alt_key = true,
-                Modifier::Shift => shift_key = true,
-                Modifier::Meta => cmd_key = true,
+                Modifier::Ctrl => _ctrl_key = true,
+                Modifier::Alt => _alt_key = true,
+                Modifier::Shift => _shift_key = true,
+                Modifier::Meta => _cmd_key = true,
             }
         }
         
-        let key_code = match hotkey.key {
+        let _key_code = match hotkey.key {
             Key::Char(c) => c as u16,
             Key::F1 => 122,
             Key::F2 => 120,
@@ -421,6 +421,7 @@ impl HotkeyManager {
     }
 
 #[cfg(target_os = "macos")]
+#[allow(dead_code)]
 extern "C" fn macos_hotkey_handler(
     _observer: *mut objc::runtime::Object,
     _event: *mut objc::runtime::Object,

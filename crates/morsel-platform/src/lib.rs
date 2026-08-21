@@ -499,7 +499,7 @@ extern "C" fn macos_hotkey_handler(
         }
         
         // Grab the key globally
-        let hotkey_id = self.generate_hotkey_id(hotkey);
+        let _hotkey_id = self.generate_hotkey_id(hotkey);
         let result = unsafe {
             XGrabKey(
                 display,

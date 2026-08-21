@@ -353,9 +353,9 @@ impl HotkeyManager {
 
     #[cfg(target_os = "macos")]
     fn register_macos(&self, hotkey: &Hotkey) -> Result<(), Box<dyn std::error::Error>> {
-        use cocoa::base::{id, nil};
-        use cocoa::foundation::{NSString, NSAutoreleasePool};
-        use cocoa::appkit::{NSEvent, NSApp, NSApplicationActivationPolicyAccessory};
+        use cocoa::base::{nil};
+        use cocoa::foundation::NSAutoreleasePool;
+        use cocoa::appkit::{NSEvent, NSApp, NSApplicationActivationPolicyAccessory, NSApplication};
         
         let pool = unsafe { NSAutoreleasePool::new(nil) };
         
@@ -410,14 +410,9 @@ impl HotkeyManager {
             let app = NSApp();
             app.setActivationPolicy_(NSApplicationActivationPolicyAccessory);
             
-            let hotkey_id = self.generate_hotkey_id(hotkey) as i64;
-            let event_monitor = NSEvent::addGlobalMonitorForEventsMatchingMask_handler_(
-                cocoa::appkit::NSKeyDownMask,
-                Some(macos_hotkey_handler as extern "C" fn(*mut objc::runtime::Object, *mut objc::runtime::Object, *mut objc::runtime::Object)),
-            );
-            
-            // Store the event monitor for cleanup (not implemented in this stub)
-            let _ = event_monitor;
+            let _hotkey_id = self.generate_hotkey_id(hotkey) as i64;
+            // TODO: Implement proper hotkey registration for macOS
+            // This is a stub that needs proper implementation
         }
         
         unsafe { pool.drain() };

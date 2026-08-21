@@ -10,7 +10,7 @@ homepage.workspace = true
 description.workspace = true
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
+morsel-core = { path = "../morsel-core", version = "0.1.0" }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["fs", "io-util"] }
 tracing = { workspace = true }

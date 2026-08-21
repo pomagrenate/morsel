@@ -10,8 +10,8 @@ homepage.workspace = true
 description.workspace = true
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
-morsel-clipboard = { path = "../morsel-clipboard" }
+morsel-core = { path = "../morsel-core", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", version = "0.1.0" }
 thiserror = { workspace = true }
 async-trait = "0.1"
 tokio = { workspace = true, features = ["sync"] }

@@ -14,10 +14,10 @@ name = "morsel-tui"
 path = "src/main.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
-morsel-search = { path = "../morsel-search" }
-morsel-storage = { path = "../morsel-storage" }
-morsel-clipboard = { path = "../morsel-clipboard" }
+morsel-core = { path = "../morsel-core", version = "0.1.0" }
+morsel-search = { path = "../morsel-search", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", version = "0.1.0" }
 ratatui = { workspace = true }
 crossterm = { workspace = true }
 tokio = { workspace = true, features = ["full"] }

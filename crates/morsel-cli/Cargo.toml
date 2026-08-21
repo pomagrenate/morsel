@@ -14,11 +14,11 @@ name = "morsel"
 path = "src/main.rs"
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
-morsel-clipboard = { path = "../morsel-clipboard" }
-morsel-storage = { path = "../morsel-storage" }
-morsel-search = { path = "../morsel-search" }
-morsel-platform = { path = "../morsel-platform" }
+morsel-core = { path = "../morsel-core", version = "0.1.0" }
+morsel-clipboard = { path = "../morsel-clipboard", version = "0.1.0" }
+morsel-storage = { path = "../morsel-storage", version = "0.1.0" }
+morsel-search = { path = "../morsel-search", version = "0.1.0" }
+morsel-platform = { path = "../morsel-platform", version = "0.1.0" }
 clap = { version = "4.4", features = ["derive"] }
 clap_complete = "4.4"
 thiserror = { workspace = true }
@@ -33,4 +33,4 @@ toml = "0.8"
 
 [dev-dependencies]
 tempfile = "3"
-morsel-daemon = { path = "../morsel-daemon" }
+morsel-daemon = { path = "../morsel-daemon", version = "0.1.0" }

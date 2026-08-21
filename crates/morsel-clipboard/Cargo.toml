@@ -10,7 +10,7 @@ homepage.workspace = true
 description.workspace = true
 
 [dependencies]
-morsel-core = { path = "../morsel-core" }
+morsel-core = { path = "../morsel-core", version = "0.1.0" }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["sync", "time"] }
 tracing = { workspace = true }
@@ -18,7 +18,7 @@ async-trait = "0.1"
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
-morsel-storage = { path = "../morsel-storage" }
+morsel-storage = { path = "../morsel-storage", version = "0.1.0" }
 tempfile = "3"
 
 [[bench]]

@@ -1,0 +1,58 @@
+name: 💡 Feature Request
+description: Suggest a new feature, enhancement, or developer experience improvement for morsel.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve morsel! Please describe the feature you would like to see added.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear description of what the problem or limitation is.
+      placeholder: e.g., I often copy secret keys that I want to automatically expire after 10 minutes...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature or solution you would like to see implemented.
+      placeholder: e.g., Add a `--ttl` flag to `morsel pin` or a sensitive item auto-expire rule in morsel.toml...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      description: Which area does this feature target?
+      options:
+        - CLI Commands (`morsel`)
+        - Terminal UI (`morsel-tui`)
+        - Daemon & IPC (`morseld`)
+        - Security & Encryption
+        - Search & Indexing Performance
+        - Platform Integration & Global Hotkeys
+        - Documentation / DX
+        - Other
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Self Check
+      options:
+        - label: I have searched existing issues to ensure this feature has not already been requested.
+          required: true
+        - label: I am willing to submit a Pull Request to implement this feature.
+          required: false

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions
+    url: https://github.com/pomagrenate/morsel/discussions
+    about: Ask questions, discuss architecture, show off setups, or chat with the community.
+  - name: 🔒 Security Policy & Vulnerability Reporting
+    url: https://github.com/pomagrenate/morsel/security/policy
+    about: Report security vulnerabilities responsibly.

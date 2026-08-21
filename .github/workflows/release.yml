@@ -166,7 +166,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
         run: |
-          cargo login --registry github ${{ secrets.SECRET_TOKEN }}
+          mkdir -p ~/.cargo
+          echo '[registries]' > ~/.cargo/config.toml
+          echo 'github = { index = "sparse+https://raw.githubusercontent.com/pomagrenate/morsel/registry/", token = "$GITHUB_TOKEN" }' >> ~/.cargo/config.toml
           cargo publish -p morsel-core --registry github
           cargo publish -p morsel-clipboard --registry github
           cargo publish -p morsel-storage --registry github

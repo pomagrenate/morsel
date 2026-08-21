@@ -457,34 +457,38 @@ extern "C" fn macos_hotkey_handler(
         }
         
         let keysym = match hotkey.key {
-            Key::Char(c) => XStringToKeysym(&c.to_string().as_bytes()[0] as *const i8) as u64,
-            Key::F1 => XK_F1,
-            Key::F2 => XK_F2,
-            Key::F3 => XK_F3,
-            Key::F4 => XK_F4,
-            Key::F5 => XK_F5,
-            Key::F6 => XK_F6,
-            Key::F7 => XK_F7,
-            Key::F8 => XK_F8,
-            Key::F9 => XK_F9,
-            Key::F10 => XK_F10,
-            Key::F11 => XK_F11,
-            Key::F12 => XK_F12,
-            Key::Space => XK_space,
-            Key::Enter => XK_Return,
-            Key::Tab => XK_Tab,
-            Key::Escape => XK_Escape,
-            Key::Backspace => XK_BackSpace,
-            Key::Delete => XK_Delete,
-            Key::Insert => XK_Insert,
-            Key::Home => XK_Home,
-            Key::End => XK_End,
-            Key::PageUp => XK_Page_Up,
-            Key::PageDown => XK_Page_Down,
-            Key::Up => XK_Up,
-            Key::Down => XK_Down,
-            Key::Left => XK_Left,
-            Key::Right => XK_Right,
+            Key::Char(c) => {
+                let s = c.to_string();
+                let c_str = std::ffi::CString::new(s.as_str()).unwrap();
+                unsafe { XStringToKeysym(c_str.as_ptr()) as u64 }
+            }
+            Key::F1 => XK_F1 as u64,
+            Key::F2 => XK_F2 as u64,
+            Key::F3 => XK_F3 as u64,
+            Key::F4 => XK_F4 as u64,
+            Key::F5 => XK_F5 as u64,
+            Key::F6 => XK_F6 as u64,
+            Key::F7 => XK_F7 as u64,
+            Key::F8 => XK_F8 as u64,
+            Key::F9 => XK_F9 as u64,
+            Key::F10 => XK_F10 as u64,
+            Key::F11 => XK_F11 as u64,
+            Key::F12 => XK_F12 as u64,
+            Key::Space => XK_space as u64,
+            Key::Enter => XK_Return as u64,
+            Key::Tab => XK_Tab as u64,
+            Key::Escape => XK_Escape as u64,
+            Key::Backspace => XK_BackSpace as u64,
+            Key::Delete => XK_Delete as u64,
+            Key::Insert => XK_Insert as u64,
+            Key::Home => XK_Home as u64,
+            Key::End => XK_End as u64,
+            Key::PageUp => XK_Page_Up as u64,
+            Key::PageDown => XK_Page_Down as u64,
+            Key::Up => XK_Up as u64,
+            Key::Down => XK_Down as u64,
+            Key::Left => XK_Left as u64,
+            Key::Right => XK_Right as u64,
         };
         
         // Get keycode from keysym
@@ -499,7 +503,7 @@ extern "C" fn macos_hotkey_handler(
         let result = unsafe {
             XGrabKey(
                 display,
-                keycode,
+                keycode as i32,
                 modifiers as u32,
                 XDefaultRootWindow(display),
                 1, // owner events

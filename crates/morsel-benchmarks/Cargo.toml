@@ -1,0 +1,45 @@
+[package]
+name = "morsel-benchmarks"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+# Workspace dependencies
+morsel-core = { path = "../morsel-core", package = "morsel-rs-core", version = "0.1.1" }
+morsel-storage = { path = "../morsel-storage", package = "morsel-rs-storage", version = "0.1.1" }
+morsel-search = { path = "../morsel-search", package = "morsel-rs-search", version = "0.1.1" }
+morsel-clipboard = { path = "../morsel-clipboard", package = "morsel-rs-clipboard", version = "0.1.1" }
+morsel-daemon = { path = "../morsel-daemon", package = "morsel-rs-daemon", version = "0.1.1" }
+
+# Benchmarking
+criterion = { version = "0.5", features = ["html_reports"] }
+divan = "0.1"
+
+# Profiling and measurement
+dhat = "0.3"
+
+# Async runtime
+tokio = { workspace = true }
+
+# Utilities
+serde_json = { workspace = true }
+tempfile = "3.8"
+chrono = "0.4"
+
+[[bench]]
+name = "heavy_payload_freeze"
+harness = false
+
+[[bench]]
+name = "fuzzy_search_scalability"
+harness = false
+
+[[bench]]
+name = "idle_resource_consumption"
+harness = false
+
+[[bench]]
+name = "cold_start_latency"
+harness = false

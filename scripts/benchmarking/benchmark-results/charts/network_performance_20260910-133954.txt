@@ -1,0 +1,4 @@
+﻿Network Performance
+====================
+Bytes/sec: 1803.72340467405
+Packets/sec: 14.7604206601805

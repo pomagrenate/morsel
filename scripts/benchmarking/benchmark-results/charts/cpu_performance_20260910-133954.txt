@@ -1,0 +1,7 @@
+﻿CPU Performance Over Time
+==========================
+Timestamp: 9/10/2026 1:31:51 PM
+CPU Usage: 65.0358224930771%
+  User: 36.1168376192882%
+  System: 28.8166306781079%
+Processor Queue Length: 1

@@ -1,0 +1,7 @@
+﻿Disk Performance
+=================
+Disk Time: 85.8885176323671%
+Read Latency: 4.07472137203166 ms
+Write Latency: 0.217385436893204 ms
+Read IOPS: 374.209519416241
+Write IOPS: 915.282914245001

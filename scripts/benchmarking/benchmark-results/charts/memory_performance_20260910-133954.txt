@@ -1,0 +1,6 @@
+﻿Memory Performance
+===================
+Available Memory: 637 MB
+Committed Memory: 9.74 GB
+Pages/sec: 222.789857773925
+Page Faults/sec: 49485.0930315986
